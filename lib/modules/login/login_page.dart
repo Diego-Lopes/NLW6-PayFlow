@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:payflow/shared/themes/app_colors.dart';
 import 'package:payflow/shared/themes/app_images.dart';
 import 'package:payflow/shared/themes/app_text_styles.dart';
 import 'package:payflow/shared/widgets/social_login/social_login_button.dart';
 
+import 'login_controller.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _State createState() => _State();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _State extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
+  //instanciando o componente Login_Controller
+  final controller = LoginController();
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
@@ -69,27 +72,10 @@ class _State extends State<LoginPage> {
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 40, left: 40, right: 40),
-                    child: SocialLoginButton(
-                      onTap: () async {
-                        // ignore: avoid_print
-                        // ignore: unused_local_variable
-                        GoogleSignIn _googleSignIn = GoogleSignIn(
-                          scopes: [
-                            'email',
-                          ],
-                        );
-                        // ignore: unused_element
-                        try {
-                          // ignore: unused_local_variable
-                          final response = await _googleSignIn.signIn();
-                          // ignore: avoid_print
-                          print(response);
-                        } catch (error) {
-                          // ignore: avoid_print
-                          print(error);
-                        }
-                      },
-                    ),
+                    child: SocialLoginButton(onTap: () {
+                      controller
+                          .googleSignIn(context); //chamando aqui o controller
+                    }),
                   ),
                 ],
               ),
