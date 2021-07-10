@@ -11,6 +11,8 @@ class AuthController {
   void setUser(BuildContext context, UserModel? user) {
     //validadando se está autenticado ou não.
     if (user != null) {
+      saveUser(user); //aqui criamos uma variável para salvar
+      _user = user; //aqui armazanamos essa variável com o login do user.
       Navigator.pushReplacementNamed(context, "/home");
     } else {
       Navigator.pushReplacementNamed(context, "/login");
@@ -27,6 +29,8 @@ class AuthController {
 
   Future<void> currentUser(BuildContext context) async {
     final instance = await SharedPreferences.getInstance();
+    // ignore: prefer_const_constructors
+    await Future.delayed(Duration(seconds: 2)); //delay da splash para home.
     if (instance.containsKey("user")) {
       final json = instance.get("user") as String;
       setUser(context, UserModel.fromJson(json));
